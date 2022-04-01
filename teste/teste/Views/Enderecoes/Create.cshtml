@@ -19,7 +19,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="CEP" class="control-label"></label>
-                <input asp-for="CEP" class="form-control" />
+                <div style="display: flex;">
+                    <input asp-for="CEP" style="margin-right:20px;" class="form-control"/> 
+                    <a href="#" id="btnCEP"class="btn btn-primary">Buscar</a>
+                </div>
                 <span asp-validation-for="CEP" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -46,4 +49,15 @@
 </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $("#btnCEP").click(function(){
+                var cep = $('#CEP');
+                var uri = 'https://viacep.com.br/ws/' + cep.val() + '/json/';
+                $.get( uri, function( data ) {
+                    $('#Rua').val(data.logradouro) ;
+                    $('#Estado').val(data.uf) ;
+                    $('#Cidade').val(data.localidade) ;
+              });
+        });
+    </script>
 }
